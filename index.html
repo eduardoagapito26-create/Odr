@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lendas dos Gramados ODR — Modo Carreira</title>
+<style>
+:root{
+  --bg:#080d16;--panel:#111a2b;--panel2:#172238;--line:#263550;
+  --text:#f4f7fb;--muted:#91a0b8;--blue:#39a0ff;--green:#35d07f;
+  --gold:#ffc84a;--red:#ff6262;--purple:#9b7cff;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#070b13,#0d1523);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif}
+button,input,select{font:inherit} button{cursor:pointer}
+.app{max-width:560px;margin:auto;min-height:100vh;padding-bottom:35px}
+.top{padding:18px 16px 10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{font-weight:900;letter-spacing:.08em;font-size:13px}.brand span{color:var(--blue)}
+.iconbtn{border:1px solid var(--line);background:var(--panel);color:#fff;border-radius:10px;padding:8px 11px}
+.screen{display:none;padding:0 16px}.screen.active{display:block}
+.hero{padding:18px 0}.eyebrow{color:var(--blue);font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.12em}
+h1{font-size:29px;margin:7px 0 8px;line-height:1.05}h2{font-size:19px;margin:0 0 12px}h3{font-size:15px;margin:0 0 9px}
+p{color:var(--muted);line-height:1.5;margin:7px 0}
+.card{background:linear-gradient(145deg,var(--panel),#0e1727);border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+label{display:block;color:var(--muted);font-size:12px;margin:0 0 6px}input,select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#0b1321;color:#fff;outline:none}
+input:focus,select:focus{border-color:var(--blue)}
+.btn{width:100%;padding:13px 14px;border:0;border-radius:11px;font-weight:850;margin-top:9px;background:var(--blue);color:#04101d}
+.btn.secondary{background:#202e45;color:#fff}.btn.green{background:var(--green);color:#06150d}.btn.gold{background:var(--gold);color:#171000}.btn.red{background:#4b2228;color:#fff}.btn.small{width:auto;padding:9px 11px;margin:0}
+.clubgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.club{padding:12px;border:1px solid var(--line);border-radius:12px;background:#0d1728;text-align:left;color:#fff}.club strong{display:block}.club small{color:var(--muted)}
+.club.selected{border-color:var(--blue);background:#102746}
+.profile{display:flex;gap:13px;align-items:center}.avatar{width:58px;height:58px;border-radius:15px;background:linear-gradient(135deg,var(--blue),#6c5cff);display:grid;place-items:center;font-size:22px;font-weight:950}
+.ovr{margin-left:auto;text-align:center}.ovr b{display:block;font-size:27px;color:var(--gold)}.ovr small{color:var(--muted)}
+.stat{background:#0b1321;border:1px solid #1d2a41;border-radius:11px;padding:10px}.stat b{display:block;font-size:19px}.stat span{font-size:10px;color:var(--muted);text-transform:uppercase}
+.progress{height:7px;background:#26334a;border-radius:9px;overflow:hidden;margin-top:7px}.progress i{display:block;height:100%;background:var(--blue)}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.muted{color:var(--muted)}.green{color:var(--green)}.gold{color:var(--gold)}.red{color:var(--red)}
+.news{border-left:3px solid var(--blue);padding-left:11px;margin:10px 0}.news b{font-size:13px}.news small{display:block;color:var(--muted);margin-top:3px}
+.nav{position:sticky;bottom:10px;background:#0d1626eF;border:1px solid var(--line);backdrop-filter:blur(12px);border-radius:15px;padding:7px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:15px 0}.nav button{border:0;background:transparent;color:var(--muted);padding:9px 4px;border-radius:10px;font-size:11px}.nav button.active{background:#1b2b44;color:#fff}
+.choice{border:1px solid var(--line);background:#0d1728;color:#fff;border-radius:11px;padding:12px;width:100%;text-align:left;margin-top:8px}.choice:hover{border-color:var(--blue)}
+.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:10px;color:var(--muted);margin:2px}
+.table{width:100%;border-collapse:collapse;font-size:12px}.table th,.table td{text-align:left;padding:8px 5px;border-bottom:1px solid #1d2a40}.table th{color:var(--muted)}
+.modal{position:fixed;inset:0;background:#02050bd9;display:none;align-items:flex-end;justify-content:center;padding:12px}.modal.show{display:flex}.modalbox{max-width:540px;width:100%;background:#101a2b;border:1px solid var(--line);border-radius:18px;padding:17px}
+.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:#17243a;border:1px solid var(--line);padding:10px 14px;border-radius:10px;display:none;z-index:5;font-size:13px}
+@media(min-width:600px){.app{padding-left:8px;padding-right:8px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><div class="brand">LENDAS DOS GRAMADOS <span>ODR</span></div><button class="iconbtn" id="resetBtn">↻</button></header>
+
+  <section id="create" class="screen active">
+    <div class="hero"><div class="eyebrow">Modo carreira</div><h1>Construa sua própria lenda.</h1><p>Escolha seu jogador, clube e comece uma carreira que pode durar até a aposentadoria.</p></div>
+    <div class="card">
+      <label>Nome do jogador</label><input id="name" maxlength="24" placeholder="Ex.: Gabriel Silva">
+      <div class="grid2" style="margin-top:10px">
+        <div><label>Idade</label><select id="age"><option>16</option><option selected>17</option><option>18</option></select></div>
+        <div><label>Posição</label><select id="pos"><option>Atacante</option><option>Ponta</option><option>Meio-Campo</option><option>Lateral</option><option>Zagueiro</option><option>Goleiro</option></select></div>
+      </div>
+      <div style="margin-top:10px"><label>Pé dominante</label><select id="foot"><option>Direito</option><option>Esquerdo</option></select></div>
+    </div>
+    <div class="card"><h2>Escolha seu clube</h2><div class="clubgrid" id="clubs"></div></div>
+    <button class="btn green" id="startBtn">Começar carreira</button>
+  </section>
+
+  <section id="home" class="screen">
+    <div class="card profile">
+      <div class="avatar" id="avatar">LS</div><div><h2 id="pname" style="margin:0">Jogador</h2><div class="muted" id="pmeta"></div><div id="contractBadge"></div></div>
+      <div class="ovr"><b id="ovr">70</b><small>OVR</small></div>
+    </div>
+    <div class="grid3">
+      <div class="stat"><b id="ageV">17</b><span>Idade</span></div><div class="stat"><b id="valueV">€1M</b><span>Valor</span></div><div class="stat"><b id="salaryV">€5k</b><span>Salário/sem</span></div>
+    </div>
+    <div class="card"><div class="row"><h2>Temporada <span id="year"></span></h2><span class="badge" id="phase">Pré-temporada</span></div><div class="grid3"><div class="stat"><b id="matches">0</b><span>Jogos</span></div><div class="stat"><b id="goals">0</b><span>Gols</span></div><div class="stat"><b id="assists">0</b><span>Assist.</span></div></div></div>
+    <div class="card"><h2>Perfil de carreira</h2><div class="grid2">
+      <div class="stat"><span>Confiança técnico</span><b id="trust">60</b><div class="progress"><i id="trustBar"></i></div></div>
+      <div class="stat"><span>Moral</span><b id="morale">70</b><div class="progress"><i id="moraleBar"></i></div></div>
+      <div class="stat"><span>Reputação</span><b id="rep">10</b><div class="progress"><i id="repBar"></i></div></div>
+      <div class="stat"><span>Torcida</span><b id="fans">10</b><div class="progress"><i id="fansBar"></i></div></div>
+    </div></div>
+    <div class="card"><h2>Últimas notícias</h2><div id="newsHome"></div></div>
+    <button class="btn" id="seasonBtn">Abrir temporada</button>
+    <div class="nav" data-nav><button class="active" data-go="home">🏠<br>Início</button><button data-go="stats">📊<br>Atributos</button><button data-go="market">💼<br>Mercado</button><button data-go="manager">🧑‍💼<br>Empresário</button></div>
+  </section>
+
+  <section id="stats" class="screen">
+    <div class="hero"><div class="eyebrow">Evolução</div><h1>Seus atributos</h1><p>O desempenho e o treinamento alteram seus atributos ao longo da carreira.</p></div>
+    <div class="card"><div class="grid2" id="attrs"></div></div>
+    <div class="card"><h2>Conquistas</h2><div id="trophies"></div></div>
+    <div class="nav" data-nav><button data-go="home">🏠<br>Início</button><button class="active" data-go="stats">📊<br>Atributos</button><button data-go="market">💼<br>Mercado</button><button data-go="manager">🧑‍💼<br>Empresário</button></div>
+  </section>
+
+  <section id="season" class="screen">
+    <div class="hero"><div class="eyebrow">Temporada <span id="seasonYear"></span></div><h1>Defina sua temporada</h1><p>Essa é a mecânica central: você escolhe seus números. O jogo calcula o impacto deles na sua carreira.</p></div>
+    <div class="card">
+      <div class="grid2"><div><label>Jogos disputados</label><input id="inMatches" type="number" min="1" max="80" value="45"></div><div><label>Gols</label><input id="inGoals" type="number" min="0" max="80" value="15"></div></div>
+      <div style="margin-top:10px"><label>Assistências</label><input id="inAssists" type="number" min="0" max="60" value="8"></div>
+      <p id="seasonHint">Os números abaixo são totalmente editáveis. Ao finalizar, eles serão usados diretamente na temporada.</p>
+      <div class="badge" id="inputPreview">0 jogos • 0 gols • 0 assistências</div>
+    </div>
+    <div class="card"><h2>Treinamento da temporada</h2><select id="training"><option value="fin">Finalização</option><option value="pas">Passe e visão</option><option value="dri">Drible</option><option value="pac">Velocidade</option><option value="phy">Físico</option><option value="def">Defesa</option></select></div>
+    <button class="btn green" id="finishSeason">Finalizar temporada</button>
+    <button class="btn secondary" id="backHome">Voltar</button>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="hero"><div class="eyebrow">Temporada encerrada</div><h1 id="resultTitle">Uma temporada histórica.</h1><p id="resultSub"></p></div>
+    <div class="card"><div class="grid3"><div class="stat"><b id="rMatches">0</b><span>Jogos</span></div><div class="stat"><b id="rGoals">0</b><span>Gols</span></div><div class="stat"><b id="rAssists">0</b><span>Assist.</span></div></div></div>
+    <div class="card"><div class="row"><span>Nota da temporada</span><b class="gold" id="rating">0</b></div><div class="row" style="margin-top:10px"><span>OVR</span><b id="newOvr">0</b></div><div class="row"><span>Valor de mercado</span><b id="newValue">€0</b></div></div>
+    <div class="card"><h2>📰 Manchetes</h2><div id="resultNews"></div></div>
+    <div id="offerCard" class="card"></div>
+    <button class="btn" id="continueBtn">Continuar carreira</button>
+  </section>
+
+  <section id="market" class="screen">
+    <div class="hero"><div class="eyebrow">Mercado</div><h1>Transferências</h1><p>Propostas aparecem de acordo com seu desempenho, reputação e nível.</p></div>
+    <div id="offers"></div>
+    <div class="card"><h2>Seu contrato</h2><div id="contract"></div></div>
+    <div class="nav" data-nav><button data-go="home">🏠<br>Início</button><button data-go="stats">📊<br>Atributos</button><button class="active" data-go="market">💼<br>Mercado</button><button data-go="manager">🧑‍💼<br>Empresário</button></div>
+  </section>
+
+  <section id="manager" class="screen">
+    <div class="hero"><div class="eyebrow">Modo empresário</div><h1>Seu empresário</h1><p>Seu agente cuida de negociações, contratos e oportunidades. Você escolhe como conduzir a carreira.</p></div>
+    <div class="card"><div class="profile"><div class="avatar">AG</div><div><h2 id="agentName">Rafael Mendes</h2><div class="muted">Empresário licenciado</div></div></div></div>
+    <div class="card"><h2>Relacionamento</h2><div class="row"><span>Confiança</span><b id="agentTrust">55</b></div><div class="progress"><i id="agentBar"></i></div></div>
+    <div class="card"><h2>Decisões</h2>
+      <button class="choice" id="agentNegotiate">🤝 Pedir para negociar um aumento salarial</button>
+      <button class="choice" id="agentScout">🔎 Pedir para procurar novos clubes</button>
+      <button class="choice" id="agentRenew">📄 Avaliar renovação com o clube atual</button>
+    </div>
+    <div class="card"><h2>Histórico</h2><div id="agentLog"></div></div>
+    <div class="nav" data-nav><button data-go="home">🏠<br>Início</button><button data-go="stats">📊<br>Atributos</button><button data-go="market">💼<br>Mercado</button><button class="active" data-go="manager">🧑‍💼<br>Empresário</button></div>
+  </section>
+
+  <section id="legacy" class="screen">
+    <div class="hero"><div class="eyebrow">Fim da carreira</div><h1>Uma lenda se despede.</h1><p id="legacyText"></p></div>
+    <div class="card"><div class="grid3"><div class="stat"><b id="lgGames">0</b><span>Jogos</span></div><div class="stat"><b id="lgGoals">0</b><span>Gols</span></div><div class="stat"><b id="lgAssists">0</b><span>Assist.</span></div></div></div>
+    <div class="card"><h2>Legado</h2><div id="legacyTrophies"></div></div>
+    <button class="btn green" id="newCareer">Nova carreira</button>
+  </section>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const clubs=[
+ ["Flamengo","Brasil",87],["Palmeiras","Brasil",87],["Corinthians","Brasil",79],["São Paulo","Brasil",78],
+ ["Atlético-MG","Brasil",82],["Cruzeiro","Brasil",76],["Grêmio","Brasil",78],["Internacional","Brasil",78],
+ ["Fluminense","Brasil",78],["Botafogo","Brasil",79],["Santos","Brasil",75],["Bahia","Brasil",75],
+ ["Real Madrid","Espanha",96],["Barcelona","Espanha",91],["Manchester City","Inglaterra",95],["Liverpool","Inglaterra",91],
+ ["Arsenal","Inglaterra",89],["Manchester United","Inglaterra",85],["Bayern de Munique","Alemanha",93],["Borussia Dortmund","Alemanha",84],
+ ["PSG","França",90],["Juventus","Itália",86],["Inter de Milão","Itália",89],["Milan","Itália",85],
+ ["Benfica","Portugal",83],["Porto","Portugal",83],["Ajax","Países Baixos",80]
+];
+const bases={
+ "Atacante":{fin:74,pas:52,dri:70,pac:76,phy:68,def:30,vis:58},
+ "Ponta":{fin:65,pas:63,dri:78,pac:84,phy:55,def:34,vis:64},
+ "Meio-Campo":{fin:55,pas:79,dri:70,pac:65,phy:62,def:58,vis:82},
+ "Lateral":{fin:40,pas:67,dri:63,pac:80,phy:70,def:68,vis:58},
+ "Zagueiro":{fin:25,pas:52,dri:38,pac:58,phy:80,def:84,vis:48},
+ "Goleiro":{fin:8,pas:45,dri:20,pac:45,phy:76,def:91,vis:35}
+};
+const attrNames={fin:"Finalização",pas:"Passe",dri:"Drible",pac:"Velocidade",phy:"Físico",def:"Defesa",vis:"Visão"};
+let selectedClub=clubs[0];
+let p=null;
+let currentSeason={matches:0,goals:0,assists:0};
+
+function money(n){
+ if(n>=100000000)return "€"+(n/1000000).toFixed(0)+"M";
+ if(n>=1000000)return "€"+(n/1000000).toFixed(1)+"M";
+ if(n>=1000)return "€"+Math.round(n/1000)+"k";
+ return "€"+Math.round(n);
+}
+function clamp(n,a,b){return Math.max(a,Math.min(b,n))}
+function ovr(){
+ let a=p.attr;
+ let weights={Atacante:[["fin",.28],["dri",.18],["pac",.16],["phy",.12],["pas",.12],["vis",.09],["def",.05]],
+ Ponta:[["dri",.25],["pac",.23],["fin",.18],["pas",.13],["vis",.11],["phy",.07],["def",.03]],
+ "Meio-Campo":[["pas",.25],["vis",.23],["dri",.16],["fin",.10],["phy",.10],["def",.09],["pac",.07]],
+ Lateral:[["def",.20],["pac",.18],["phy",.16],["pas",.15],["dri",.12],["vis",.10],["fin",.09]],
+ Zagueiro:[["def",.34],["phy",.20],["pas",.13],["pac",.10],["vis",.09],["dri",.07],["fin",.07]],
+ Goleiro:[["def",.48],["pas",.14],["phy",.14],["vis",.10],["pac",.07],["dri",.04],["fin",.03]]};
+ return Math.round(weights[p.pos].reduce((s,[k,w])=>s+p.attr[k]*w,0));
+}
+function initClubs(){
+ const el=document.getElementById("clubs");
+ el.innerHTML=clubs.map((c,i)=>`<button class="club ${i===0?"selected":""}" data-i="${i}"><strong>${c[0]}</strong><small>${c[1]} • Força ${c[2]}</small></button>`).join("");
+ el.querySelectorAll(".club").forEach(b=>b.onclick=()=>{el.querySelectorAll(".club").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedClub=clubs[+b.dataset.i]});
+}
+function makePlayer(){
+ const name=(document.getElementById("name").value||"Novo Craque").trim();
+ p={name,age:+document.getElementById("age").value,pos:document.getElementById("pos").value,foot:document.getElementById("foot").value,
+ club:selectedClub[0],clubCountry:selectedClub[1],clubPower:selectedClub[2],year:2026,
+ attr:{...bases[document.getElementById("pos").value]},trust:60,morale:70,rep:10,fans:10,agent:55,
+ salary:5000,value:1000000,contractYears:3,stats:{matches:0,goals:0,assists:0},career:{matches:0,goals:0,assists:0},
+ trophies:[],news:[],offers:[],agentLog:["Contrato de representação assinado."],training:"fin"};
+ Object.keys(p.attr).forEach(k=>p.attr[k]=clamp(p.attr[k]+Math.floor(Math.random()*7)-3,1,99));
+ p.news.unshift(`Você assinou seu primeiro contrato profissional com o ${p.club}.`);
+ render();
+ show("home");
+}
+function addNews(t){p.news.unshift(t);p.news=p.news.slice(0,8)}
+function render(){
+ if(!p)return;
+ const initials=p.name.split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase();
+ document.getElementById("avatar").textContent=initials;
+ document.getElementById("pname").textContent=p.name;
+ document.getElementById("pmeta").textContent=`${p.pos} • ${p.foot} • ${p.club}`;
+ document.getElementById("contractBadge").innerHTML=`<span class="badge">${p.contractYears} anos de contrato</span>`;
+ document.getElementById("ovr").textContent=ovr();
+ document.getElementById("ageV").textContent=p.age;
+ document.getElementById("valueV").textContent=money(p.value);
+ document.getElementById("salaryV").textContent=money(p.salary);
+ document.getElementById("year").textContent=p.year;
+ document.getElementById("seasonYear").textContent=p.year;
+ document.getElementById("matches").textContent=currentSeason.matches;
+ document.getElementById("goals").textContent=currentSeason.goals;
+ document.getElementById("assists").textContent=currentSeason.assists;
+ for(const [id,val] of [["trust",p.trust],["morale",p.morale],["rep",p.rep],["fans",p.fans]]){
+   document.getElementById(id).textContent=val; document.getElementById(id+"Bar").style.width=clamp(val,0,100)+"%";
+ }
+ document.getElementById("newsHome").innerHTML=p.news.slice(0,5).map(n=>`<div class="news"><b>${n}</b><small>${p.year}</small></div>`).join("");
+ document.getElementById("attrs").innerHTML=Object.entries(p.attr).map(([k,v])=>`<div class="stat"><span>${attrNames[k]}</span><b>${v}</b><div class="progress"><i style="width:${v}%"></i></div></div>`).join("");
+ document.getElementById("trophies").innerHTML=p.trophies.length?p.trophies.map(t=>`<span class="badge gold">🏆 ${t}</span>`).join(""):"<span class='muted'>Nenhum título ainda.</span>";
+ document.getElementById("agentTrust").textContent=p.agent;document.getElementById("agentBar").style.width=p.agent+"%";
+ document.getElementById("agentLog").innerHTML=p.agentLog.slice(-5).reverse().map(x=>`<div class="news"><b>${x}</b></div>`).join("");
+ document.getElementById("contract").innerHTML=`<div class="row"><span>Clube</span><b>${p.club}</b></div><div class="row"><span>Salário semanal</span><b>${money(p.salary)}</b></div><div class="row"><span>Duração restante</span><b>${p.contractYears} anos</b></div>`;
+}
+function show(id){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("[data-nav] button").forEach(b=>b.classList.toggle("active",b.dataset.go===id));
+ render();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function toast(t){const x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
+function finishSeason(){
+  if(!p) return;
+
+  const matches = clamp(parseInt(document.getElementById("inMatches").value,10) || 0,1,80);
+  let goals = clamp(parseInt(document.getElementById("inGoals").value,10) || 0,0,80);
+  let assists = clamp(parseInt(document.getElementById("inAssists").value,10) || 0,0,60);
+
+  // The user controls these numbers. They are never replaced by fixed defaults.
+  goals = Math.min(goals,matches);
+  assists = Math.min(assists,matches);
+
+  currentSeason={matches,goals,assists};
+  p.stats={matches,goals,assists};
+  p.career.matches += matches;
+  p.career.goals += goals;
+  p.career.assists += assists;
+
+  const involvement=(goals*1.8+assists*1.1)/Math.max(matches,1);
+  let rating=clamp(6.0+involvement+(p.trust-50)/100,5,10);
+  if(["Zagueiro","Lateral","Goleiro"].includes(p.pos)){
+    rating=clamp(6.2+involvement*.7+(p.trust-50)/120,5.5,10);
+  }
+
+  const tr=document.getElementById("training").value;
+  const boost={fin:"fin",pas:"pas",dri:"dri",pac:"pac",phy:"phy",def:"def"}[tr];
+  p.attr[boost]=clamp(p.attr[boost]+2+(rating>=8.5?2:rating>=7.5?1:0),1,99);
+
+  const secondary=["pas","dri","pac","phy","vis"].filter(x=>x!==boost)[Math.floor(Math.random()*4)];
+  p.attr[secondary]=clamp(p.attr[secondary]+(rating>=8?1:0),1,99);
+
+  if(rating>=8.5){
+    p.trust=clamp(p.trust+8,0,100); p.morale=clamp(p.morale+10,0,100);
+    p.rep=clamp(p.rep+10,0,100); p.fans=clamp(p.fans+12,0,100);
+  }else if(rating>=7.5){
+    p.trust=clamp(p.trust+4,0,100); p.morale=clamp(p.morale+5,0,100);
+    p.rep=clamp(p.rep+6,0,100); p.fans=clamp(p.fans+7,0,100);
+  }else if(rating<6.5){
+    p.trust=clamp(p.trust-5,0,100); p.morale=clamp(p.morale-6,0,100);
+    p.rep=clamp(p.rep-2,0,100);
+  }
+
+  const oldOvr=ovr();
+  let delta=rating>=8.5?2:rating>=7.5?1:rating<6.3?-1:0;
+  if(p.age>=31) delta-=1;
+  Object.keys(p.attr).forEach(k=>{
+    if(Math.random()<.18) p.attr[k]=clamp(p.attr[k]+delta,1,99);
+  });
+  const newOvr=ovr();
+
+  p.value=clamp(
+    Math.round(p.value*(1+(rating-7)*.16+(newOvr-oldOvr)*.04)),
+    250000,250000000
+  );
+
+  // Dynamic news: performance + random world/club news.
+  const performanceNews=[
+    `📊 ${p.name} fechou ${p.year} com ${matches} jogos, ${goals} gols e ${assists} assistências.`,
+    `🔥 ${p.name} teve ${goals} gols e ${assists} assistências em ${matches} partidas nesta temporada.`,
+    `📰 A temporada de ${p.name} terminou com nota ${rating.toFixed(1)}.`
+  ];
+  addNews(performanceNews[Math.floor(Math.random()*performanceNews.length)]);
+
+  if(goals>=30){
+    if(!p.trophies.includes("Artilheiro da temporada")) p.trophies.push("Artilheiro da temporada");
+    addNews(`👑 ${p.name} termina a temporada como um dos grandes goleadores do futebol.`);
+  }
+  if(assists>=20){
+    if(!p.trophies.includes("Líder de assistências")) p.trophies.push("Líder de assistências");
+    addNews(`🎯 ${p.name} se destaca na criação e termina o ano com ${assists} assistências.`);
+  }
+  if(rating>=8.7) addNews(`⭐ ${p.name} entra na conversa dos grandes destaques de ${p.year}.`);
+  if(rating<6.5) addNews(`⚠️ A imprensa cobra uma reação de ${p.name} na próxima temporada.`);
+
+  const clubNews=[
+    `🏟️ O ${p.club} anunciou mudanças no planejamento para a próxima temporada.`,
+    `🔎 O ${p.club} começou a observar novos jogadores no mercado.`,
+    `💬 A diretoria do ${p.club} elogiou o ambiente do elenco nesta reta final.`,
+    `📋 A comissão técnica do ${p.club} já prepara a pré-temporada.`,
+    `🌎 O ${p.club} acompanha o mercado internacional em busca de reforços.`,
+    `🏥 O departamento médico do ${p.club} divulgou um balanço físico do elenco.`
+  ];
+  addNews(clubNews[Math.floor(Math.random()*clubNews.length)]);
+
+  // Atlético-MG special/random news when the player is at Atlético-MG.
+  if(p.club==="Atlético-MG"){
+    const atleticoNews=[
+      "🐔 ATLÉTICO-MG: a Massa prepara uma grande festa para o próximo desafio no calendário.",
+      "🐔 ATLÉTICO-MG: a diretoria avalia reforços para aumentar a força do elenco.",
+      "🐔 ATLÉTICO-MG: o clube inicia o planejamento da próxima temporada na Arena MRV.",
+      "🐔 ATLÉTICO-MG: a comissão técnica testa novas opções para o time titular.",
+      "🐔 ATLÉTICO-MG: a torcida acompanha de perto as movimentações do mercado.",
+      "🐔 ATLÉTICO-MG: o clube confirma que pretende disputar os grandes torneios com força máxima."
+    ];
+    addNews(atleticoNews[Math.floor(Math.random()*atleticoNews.length)]);
+  }
+
+  // Random football-world headlines, independent of the player's performance.
+  const worldNews=[
+    "🌍 Mercado: grandes clubes europeus começam a preparar propostas para a próxima janela.",
+    "🏆 Competições: a próxima temporada promete calendário cheio e decisões importantes.",
+    "📰 Bastidores: clubes tradicionais já iniciaram conversas por novos reforços.",
+    "🇧🇷 Seleção: a comissão técnica acompanha jogadores em destaque nos campeonatos.",
+    "💰 Mercado: agentes trabalham nos bastidores antes da abertura da janela.",
+    "📺 Futebol: a imprensa internacional debate os principais destaques da temporada."
+  ];
+  if(Math.random()<0.65) addNews(worldNews[Math.floor(Math.random()*worldNews.length)]);
+
+  // Random title, independent from goal count.
+  if(Math.random()<0.20){
+    const titles=p.clubCountry==="Brasil"
+      ? ["Brasileirão","Copa do Brasil","Libertadores","Supercopa do Brasil"]
+      : ["Champions League","Liga nacional","Copa nacional","Mundial de Clubes"];
+    const title=titles[Math.floor(Math.random()*titles.length)];
+    p.trophies.push(title);
+    addNews(`🏆 ${p.club} conquista ${title} após uma temporada de decisões.`);
+  }
+
+  // Transfer offers are generated after the season.
+  p.offers=[];
+  const offerChance=(rating>=8.2?0.72:rating>=7.5?0.45:0.18)+(p.rep/300);
+  if(Math.random()<offerChance){
+    const pool=clubs.filter(c=>c[0]!==p.club && c[2]>=Math.max(74,p.clubPower-2));
+    if(pool.length){
+      const c=pool[Math.floor(Math.random()*pool.length)];
+      p.offers.push({
+        club:c[0],country:c[1],power:c[2],
+        fee:Math.round(p.value*(1.15+Math.random()*.85)),
+        salary:Math.round(p.salary*(1.4+Math.random()*1.5)),
+        years:4+Math.floor(Math.random()*2)
+      });
+      addNews(`📨 ${c[0]} enviou uma proposta oficial por ${p.name}.`);
+    }
+  }
+
+  document.getElementById("rating").textContent=rating.toFixed(1);
+  document.getElementById("rMatches").textContent=matches;
+  document.getElementById("rGoals").textContent=goals;
+  document.getElementById("rAssists").textContent=assists;
+  document.getElementById("newOvr").textContent=newOvr;
+  document.getElementById("newValue").textContent=money(p.value);
+  document.getElementById("resultTitle").textContent=
+    rating>=8.7?"Temporada de craque.":rating>=7.7?"Temporada muito boa.":"Uma temporada para aprender.";
+  document.getElementById("resultSub").textContent=
+    `${p.name} terminou ${p.year} com ${matches} jogos, ${goals} gols e ${assists} assistências.`;
+  document.getElementById("resultNews").innerHTML=p.news.slice(0,7)
+    .map(n=>`<div class="news"><b>${n}</b></div>`).join("");
+
+  renderOffer();
+  render();
+  show("result");
+}
+function renderOffer(){
+ const box=document.getElementById("offerCard");
+ if(!p.offers.length){box.innerHTML=`<h2>Mercado</h2><p>Nenhuma proposta chegou nesta janela. Seu empresário continuará procurando oportunidades.</p>`;return}
+ const o=p.offers[0];
+ box.innerHTML=`<h2>📨 Proposta oficial</h2><div class="row"><span>Clube</span><b>${o.club}</b></div><div class="row"><span>Valor da transferência</span><b>${money(o.fee)}</b></div><div class="row"><span>Salário</span><b>${money(o.salary)}/sem</b></div><div class="row"><span>Contrato</span><b>${o.years} anos</b></div><button class="btn green" id="acceptOffer">Aceitar transferência</button><button class="btn secondary" id="rejectOffer">Recusar e ficar</button>`;
+ document.getElementById("acceptOffer").onclick=()=>acceptOffer(o);
+ document.getElementById("rejectOffer").onclick=()=>{addNews(`❌ ${p.name} recusou a proposta do ${o.club} e permanece no ${p.club}.`);p.offers=[];toast("Proposta recusada");renderOffer();render()};
+}
+function acceptOffer(o){
+ p.club=o.club;p.clubCountry=o.country;p.clubPower=o.power;p.salary=o.salary;p.contractYears=o.years;p.offers=[];
+ p.trust=55;p.morale=75;p.agent=clamp(p.agent+8,0,100);
+ addNews(`✈️ TRANSFERÊNCIA! ${p.name} deixa seu clube e assina com o ${p.club}.`);
+ p.year++;
+ p.age++;
+ p.stats={matches:0,goals:0,assists:0};
+ currentSeason={matches:0,goals:0,assists:0};
+ if(p.age>=38){legacy();return}
+ toast("Transferência concluída!");
+ show("home");
+}
+function continueCareer(){
+  if(!p) return;
+
+  p.year++;
+  p.age++;
+  if(p.contractYears>0) p.contractYears--;
+  p.stats={matches:0,goals:0,assists:0};
+  currentSeason={matches:0,goals:0,assists:0};
+
+  if(p.age>=38){
+    legacy();
+    return;
+  }
+
+  p.morale=clamp(p.morale-2,0,100);
+  p.offers=[];
+  addNews(`📅 ${p.year}: nova temporada começou. ${p.name} se prepara para mais um ano de carreira.`);
+  show("home");
+}
+function legacy(){
+ document.getElementById("lgGames").textContent=p.career.matches;document.getElementById("lgGoals").textContent=p.career.goals;document.getElementById("lgAssists").textContent=p.career.assists;
+ document.getElementById("legacyText").textContent=`Aos ${p.age} anos, ${p.name} encerra a carreira com ${p.career.matches} jogos, ${p.career.goals} gols, ${p.career.assists} assistências e OVR final ${ovr()}. Seu último clube foi o ${p.club}.`;
+ document.getElementById("legacyTrophies").innerHTML=p.trophies.length?p.trophies.map(t=>`<span class="badge gold">🏆 ${t}</span>`).join(""):"Sem títulos registrados.";
+ show("legacy");
+}
+function agentAction(type){
+ if(type==="negotiate"){
+   p.agent=clamp(p.agent+4,0,100);p.salary=Math.round(p.salary*(1.05+(p.rep/1000)));
+   p.agentLog.push(`Seu empresário negociou melhores condições. Novo salário: ${money(p.salary)}/sem.`);
+   addNews(`💼 Seu empresário conseguiu uma melhoria salarial para você.`);
+ }
+ if(type==="scout"){
+   p.agent=clamp(p.agent+3,0,100);p.agentLog.push("Seu empresário iniciou uma busca por clubes interessados.");
+   if(!p.offers.length && p.rep>=20){
+     const pool=clubs.filter(c=>c[0]!==p.club && c[2]>=p.clubPower-5);const c=pool[Math.floor(Math.random()*pool.length)];
+     p.offers=[{club:c[0],country:c[1],power:c[2],fee:Math.round(p.value*1.4),salary:Math.round(p.salary*1.5),years:4}];
+     addNews(`🔎 Seu empresário encontrou interesse do ${c[0]}.`);
+   }
+ }
+ if(type==="renew"){
+   if(p.contractYears<=1){p.contractYears=3;p.salary=Math.round(p.salary*1.15);p.agent=clamp(p.agent+5,0,100);p.agentLog.push("Renovação assinada por mais 3 anos.");addNews(`✍️ ${p.name} renovou contrato com o ${p.club}.`)}
+   else p.agentLog.push("Seu empresário informou que ainda há bastante tempo de contrato.");
+ }
+ render();toast("Empresário atualizado");
+}
+["inMatches","inGoals","inAssists"].forEach(id=>{
+  document.getElementById(id).addEventListener("input",()=>{
+    const m=clamp(parseInt(document.getElementById("inMatches").value,10)||0,0,80);
+    const g=clamp(parseInt(document.getElementById("inGoals").value,10)||0,0,80);
+    const a=clamp(parseInt(document.getElementById("inAssists").value,10)||0,0,60);
+    document.getElementById("inputPreview").textContent=`${m} jogos • ${Math.min(g,m)} gols • ${Math.min(a,m)} assistências`;
+  });
+});
+document.getElementById("startBtn").onclick=makePlayer;
+document.getElementById("seasonBtn").onclick=()=>show("season");
+document.getElementById("finishSeason").onclick=finishSeason;
+document.getElementById("backHome").onclick=()=>show("home");
+document.getElementById("continueBtn").onclick=continueCareer;
+document.getElementById("agentNegotiate").onclick=()=>agentAction("negotiate");
+document.getElementById("agentScout").onclick=()=>agentAction("scout");
+document.getElementById("agentRenew").onclick=()=>agentAction("renew");
+document.getElementById("newCareer").onclick=()=>{p=null;currentSeason={matches:0,goals:0,assists:0};show("create");initClubs()};
+document.getElementById("resetBtn").onclick=()=>{if(confirm("Começar uma nova carreira?")){p=null;currentSeason={matches:0,goals:0,assists:0};show("create");initClubs()}};
+document.querySelectorAll("[data-nav]").forEach(nav=>nav.querySelectorAll("button").forEach(b=>b.onclick=()=>show(b.dataset.go)));
+initClubs();
+</script>
+</body>
+</html>
